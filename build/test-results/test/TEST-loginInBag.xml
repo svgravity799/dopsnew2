@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="loginInBag" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-13T01:16:20" hostname="MacBook-Air-Pavel.local" time="30.757">
+<testsuite name="LoginInBag" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-06-18T02:18:07" hostname="MacBook-Air-Pavel.local" time="32.784">
   <properties/>
-  <testcase name="loginInBag()" classname="loginInBag" time="30.757"/>
-  <system-out><![CDATA[Поиск выполнен
-Выдача отображается
-Попап экскурсии открыт, дата выбрана
-Переход в новую вкладку выполнен, экскурсия добавлена в корзину
+  <testcase name="ExcursionsBron_LoginInBag()" classname="LoginInBag" time="32.784"/>
+  <system-out><![CDATA[Переход в новую вкладку выполнен, экскурсия добавлена в корзину
 Авторизация в корзине выполнена
 Данные о туристах в корзине заполнены
 ]]></system-out>
   <system-err><![CDATA[SLF4J: No SLF4J providers were found.
 SLF4J: Defaulting to no-operation (NOP) logger implementation
 SLF4J: See https://www.slf4j.org/codes.html#noProviders for further details.
-июн. 12, 2025 6:16:21 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+июн. 18, 2025 5:18:09 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
 WARNING: Unable to find CDP implementation matching 137
-июн. 12, 2025 6:16:21 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
-WARNING: Unable to find version of CDP to use for 137.0.7151.70. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.13.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+июн. 18, 2025 5:18:09 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 137.0.7151.119. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.13.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-err>
 </testsuite>

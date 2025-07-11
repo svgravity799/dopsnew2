@@ -9,6 +9,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.TelegramBotSender;
+
 import static com.codeborne.selenide.Selenide.*;
 
 import java.time.Duration;
@@ -32,7 +34,7 @@ public class BookingExcursionsFull {
 
 //Выполнение поиска
         $("div[class=v-departure__pinput]").click();
-        $$("[data-v-7cc930c8].v-departure__elem").findBy(Condition.text("Турция")).click();
+        $$("[data-v-7cc930c8].v-departure__elem").findBy(Condition.text("ТИИИ")).click();
         sleep(1000);
         $("[data-v-08a2bd6c].calendar__field-title").click();
         $("[class=calendar-popup__arrow-right]").click();
@@ -134,7 +136,39 @@ public class BookingExcursionsFull {
         System.out.println("Данные о туристах в корзине заполнены");
 
 
+//Нажатие на забронировать
+ /*   $("div.theme-yellow-booking")
+                .shouldHave(Condition.visible, Duration.ofSeconds(10))
+        .click();
 
+
+    sleep(10000);
+
+
+        String bookingText = $("h4.bookingPay__header-text")
+                .shouldBe(Condition.exist, Duration.ofSeconds(20))   // ждем появления в DOM
+                .shouldBe(Condition.visible, Duration.ofSeconds(10)) // и появления на экране
+                .getText();
+
+        String bookingNumber = bookingText.replaceAll("\\D+", ""); // извлекаем только цифры
+        System.out.println("Номер бронирования: " + bookingNumber);
+
+*/
+
+
+// Создание отчета
+        String report = "Бронирование экскурсий выполнено успешно!\n" +
+                "1. Поиск экскурсии выполнен.\n" +
+                "2. Карточка экскурсии из выдачи раскрыта.\n" +
+                "3. Даты в карточке экскурсии выбраны.\n" +
+                "4. Экскурсия добавлена в корзину.\n" +
+                "5. Переход в корзину выполнен.\n" +
+                "6. Авторизация в корзине выполнена.\n" +
+                "7. Данные о туристах заполнены.\n";
+        //  /   "8. Бронирование выполнено. Номер бронирования: " + bookingNumber;
+
+// Отправка отчета в Telegram
+        TelegramBotSender.sendMessage(report);
 
 
     }

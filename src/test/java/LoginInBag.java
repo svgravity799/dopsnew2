@@ -1,22 +1,49 @@
+import io.qameta.allure.Attachment;
+
+
+
+
+
 import com.codeborne.selenide.*;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 import pages.ExcursionsPage;
 
 import static com.codeborne.selenide.Selenide.*;
 
 import java.time.Duration;
+import io.qameta.allure.*;
+import pages.TelegramBotSender;
 
 import static com.codeborne.selenide.Selectors.byText;
+import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 
-public class LoginInBag {
+@Epic("Бронирование экскурсий")
+@Feature("Авторизация в корзину")
+public class
+LoginInBag {
+    
+
     @Test
-    void ExcursionsBron_LoginInBag () {
+    @Story("Бронирование экскурсий с авторизацией в корзине")
+    @Owner("Pavel Yatmanov")
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Бронирование экскурсий с авторизацией в корзине")
+
+
+    void ExcursionsBronLoginInBag () {
 
         Configuration.browser = "chrome";
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1920x1080";
         Configuration.holdBrowserOpen = true;
+
+
+
 
         Selenide.open("https://fstravel.com/searchexcursions");
 
@@ -25,7 +52,10 @@ public class LoginInBag {
 
 
         ExcursionsPage excursionsPage = new ExcursionsPage();
+
+       // @Step("Параметры поиска выставлены)
         excursionsPage.searchExcursions();
+
         excursionsPage.excursionsCards();
 
 
@@ -37,7 +67,7 @@ public class LoginInBag {
 
 
 
-
+//@Step("Даты в карточки экскурсии выбраны")
         excursionsPage.calendarDates();
 
         excursionsPage.closingBanner();
@@ -46,10 +76,10 @@ public class LoginInBag {
 
         excursionsPage.closingBanner();
 
-
+//@Step("Экскурсия добавляется в корзину")
         excursionsPage.addToBag();
         sleep(10000);
-
+//@Step("Переключение на новую вкладку выполнено")
         switchTo().window(1);
 
 
@@ -60,21 +90,33 @@ public class LoginInBag {
         excursionsPage.closingBanner();
 
 
-        System.out.println("Переход в новую вкладку выполнен, экскурсия добавлена в корзину");
+      //  System.out.println("Переход в новую вкладку выполнен, экскурсия добавлена в корзину");
 
+      ///  @Step("Авторизация в корзине выполнена")
         excursionsPage.authInBag();
 
         sleep(1000);
 
-        System.out.println("Авторизация в корзине выполнена");
-
 
         excursionsPage.addToristinfo();
 
+       /* excursionsPage.booking();
 
-        System.out.println("Данные о туристах в корзине заполнены");
+        sleep(10000);
+
+        excursionsPage.telegramSend();
+
+        */
 
 
+
+
+
+    }
+
+    @Attachment(value = "{name}", type = "image/png")
+    public byte[] attachScreenshot(String name) {
+        return ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
     }
 }
 

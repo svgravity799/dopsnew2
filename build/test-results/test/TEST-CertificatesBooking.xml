@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="LoginInBag" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-07-11T15:14:09" hostname="MacBook-Air-Pavel.local" time="33.964">
+<testsuite name="CertificatesBooking" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-07-12T09:34:41" hostname="MacBook-Air-Pavel.local" time="7.799">
   <properties/>
-  <testcase name="Бронирование экскурсий с авторизацией в корзине" classname="LoginInBag" time="33.964"/>
+  <testcase name="certificatesBooking()" classname="CertificatesBooking" time="7.799"/>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[июл. 11, 2025 6:14:11 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+  <system-err><![CDATA[июл. 12, 2025 12:34:44 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
 WARNING: Unable to find CDP implementation matching 138
-июл. 11, 2025 6:14:11 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+июл. 12, 2025 12:34:44 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
 WARNING: Unable to find version of CDP to use for 138.0.7204.101. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.13.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 ]]></system-err>
 </testsuite>

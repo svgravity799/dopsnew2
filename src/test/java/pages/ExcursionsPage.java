@@ -8,6 +8,16 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.time.Duration;
+
+import com.codeborne.selenide.Condition;
+import com.codeborne.selenide.Screenshots;
+import pages.TelegramBotSender;
+
+import java.io.File;
+import java.nio.file.Files;
 import java.time.Duration;
 
 import static com.codeborne.selenide.Selectors.byText;
@@ -102,13 +112,41 @@ public class ExcursionsPage {
 
     public void telegramSend() {
 
+
+
+
+
+// Шаг получения номера брони
         String bookingText = $("h4.bookingPay__header-text")
-                .shouldBe(Condition.exist, Duration.ofSeconds(20))   // ждем появления в DOM
-                .shouldBe(Condition.visible, Duration.ofSeconds(10)) // и появления на экране
+                .shouldBe(Condition.exist, Duration.ofSeconds(20))
+                .shouldBe(Condition.visible, Duration.ofSeconds(10))
                 .getText();
 
-        String bookingNumber = bookingText.replaceAll("\\D+", ""); // извлекаем только цифры
+        String bookingNumber = bookingText.replaceAll("\\D+", "");
         System.out.println("Номер бронирования: " + bookingNumber);
+
+// Готовим текст для Telegram
+        String message = """
+Бронирование экскурсий выполнено успешно!
+1. Параметры поиска выставлены.
+2. Карточка экскурсии из выдачи раскрыта.
+3. Даты в карточке экскурсии выбраны.
+4. Экскурсия добавлена в корзину.
+5. Переключение на новую вкладку выполнено.
+6. Авторизация в корзине выполнена.
+7. Данные о туристах заполнены.
+8. Номер бронирования: %s
+""".formatted(bookingNumber);
+
+// Снимаем скриншот и отправляем всё вместе
+        try {
+            File screenshotFile = Screenshots.takeScreenShotAsFile();
+            byte[] screenshot = Files.readAllBytes(screenshotFile.toPath());
+            TelegramBotSender.sendMessageWithScreenshot(message, screenshot);
+        } catch (Exception e) {
+            e.printStackTrace(); // на случай ошибок со скриншотом
+        }
+
 
     }
 

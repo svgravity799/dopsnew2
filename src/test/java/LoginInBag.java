@@ -100,13 +100,12 @@ LoginInBag {
 
         excursionsPage.addToristinfo();
 
-       /* excursionsPage.booking();
+       excursionsPage.booking();
 
         sleep(10000);
 
         excursionsPage.telegramSend();
 
-        */
 
 
 

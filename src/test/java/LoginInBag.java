@@ -41,6 +41,7 @@ LoginInBag {
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1920x1080";
         Configuration.holdBrowserOpen = true;
+        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
 
 
 

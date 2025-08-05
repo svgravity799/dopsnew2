@@ -1,10 +1,10 @@
-name: Run Tests with Selenide
+name: Java Tests
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
-    branches: [ main ]
 
 jobs:
   test:
@@ -12,22 +12,21 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v3
+        uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
           java-version: '17'
+          distribution: 'temurin'
 
-      - name: Install Chrome 114 (compatible)
+      - name: Install dependencies
+        run: sudo apt-get update
+
+      - name: Install Chrome 114 manually
         run: |
-          sudo apt update
-          sudo apt remove -y google-chrome-stable || true
-          echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-          sudo apt update
-          sudo apt install -y google-chrome-stable=114.0.5735.90-1
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
+          sudo dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb || sudo apt-get -f install -y
           google-chrome --version
 
       - name: Install ChromeDriver 114

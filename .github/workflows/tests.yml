@@ -1,55 +1,29 @@
-name: Run LoginInBag Test
+name: Run tests on Mac ARM64
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+on: [push, pull_request]
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-
+  test:
+    runs-on: macos-latest
     steps:
-      - name: Checkout repository
+      - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: '17'
-          distribution: 'temurin'
 
       - name: Install Google Chrome
         run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          brew install --cask google-chrome
 
-      - name: Install ChromeDriver
+      - name: Install ChromeDriver for mac-arm64
         run: |
-          # Получаем версию Chrome
-          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
-          echo "Chrome version: $CHROME_VERSION"
-
-          # Получаем последнюю стабильную версию ChromeDriver
-          DRIVER_VERSION=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json | jq -r '.channels.Stable.version')
-          echo "ChromeDriver version: $DRIVER_VERSION"
-
-          # Получаем URL для скачивания ChromeDriver для Linux64
-          DRIVER_URL=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json | jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url')
-
-          wget -q $DRIVER_URL -O chromedriver.zip
+          set -e
+          JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
+          DRIVER_URL=$(curl -s $JSON_URL | jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="mac-arm64") | .url')
+          echo "Downloading ChromeDriver from $DRIVER_URL"
+          curl -sSL $DRIVER_URL -o chromedriver.zip
           unzip -o chromedriver.zip
-          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+          sudo mv chromedriver-mac-arm64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
-
-      - name: Check installed versions
-        run: |
-          google-chrome --version
           chromedriver --version
 
-      - name: Grant execute permission for gradlew
-        run: chmod +x gradlew
-
-      - name: Run only LoginInBag test
+      - name: Run tests
         run: ./gradlew clean test --tests LoginInBag

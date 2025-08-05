@@ -1,20 +1,43 @@
-# Устанавливаем Google Chrome
-- name: Install Google Chrome
-  run: |
-    wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-    sudo apt install -y ./google-chrome-stable_current_amd64.deb
+name: Java CI with Gradle and Selenide
 
-# Устанавливаем ChromeDriver с последней стабильной версией
-- name: Install ChromeDriver
-  run: |
-    # Получаем текущую версию Google Chrome
-    CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //')
-    
-    # Получаем последнюю совместимую версию ChromeDriver
-    CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-    
-    # Скачиваем и устанавливаем ChromeDriver
-    wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
-    unzip chromedriver_linux64.zip
-    sudo mv chromedriver /usr/local/bin/
-    sudo chmod +x /usr/local/bin/chromedriver
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Клонируем репозиторий
+      - uses: actions/checkout@v3
+
+      # 2. Устанавливаем JDK 17
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: temurin
+          java-version: 17
+
+      # 3. Устанавливаем Google Chrome
+      - name: Install Google Chrome
+        run: |
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+
+      # 4. Устанавливаем ChromeDriver с последней стабильной версией
+      - name: Install ChromeDriver
+        run: |
+          # Получаем текущую версию Google Chrome
+          CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //')
+          
+          # Получаем последнюю совместимую версию ChromeDriver
+          CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+
+          # Скачиваем и устанавливаем ChromeDriver
+          wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      # 5. Запускаем тесты
+      - name: Run tests
+        run: ./gradlew clean test

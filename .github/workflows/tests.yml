@@ -28,12 +28,21 @@ jobs:
         run: |
           # Получаем текущую версию Google Chrome и очищаем её от лишнего текста
           CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //' | sed 's/\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/')
-
+          
+          # Проверяем, что версия была извлечена корректно
+          echo "Detected Chrome version: ${CHROME_VERSION}"
+          
           # Получаем последнюю совместимую версию ChromeDriver
           CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
 
           # Проверяем, что версия была корректно извлечена
           echo "Using ChromeDriver version: ${CHROMEDRIVER_VERSION}"
+          
+          # Если переменная CHROMEDRIVER_VERSION пуста, выводим ошибку
+          if [ -z "$CHROMEDRIVER_VERSION" ]; then
+            echo "Error: Unable to find compatible ChromeDriver version for Chrome ${CHROME_VERSION}. Exiting."
+            exit 1
+          fi
 
           # Скачиваем и устанавливаем ChromeDriver
           wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip

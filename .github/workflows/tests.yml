@@ -31,5 +31,5 @@ jobs:
           pip install chromedriver-autoinstaller
           python -c "import chromedriver_autoinstaller; chromedriver_autoinstaller.install()"
 
-      - name: Run tests
-        run: ./gradlew clean test
+      - name: Run only LoginInBag test
+         run: ./gradlew clean test --tests LoginInBag

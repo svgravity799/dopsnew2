@@ -1,4 +1,4 @@
-name: Run LoginInBag test
+name: Run LoginInBag Test
 
 on:
   push:
@@ -27,15 +27,23 @@ jobs:
 
       - name: Install ChromeDriver
         run: |
+          # Получаем версию Chrome
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+' | head -1)
+          echo "Chrome version: $CHROME_VERSION"
+
+          # Получаем последнюю стабильную версию ChromeDriver
           DRIVER_VERSION=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json | jq -r '.channels.Stable.version')
-          echo "Using ChromeDriver version: $DRIVER_VERSION"
+          echo "ChromeDriver version: $DRIVER_VERSION"
+
+          # Получаем URL для скачивания ChromeDriver для Linux64
           DRIVER_URL=$(curl -s https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json | jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="linux64") | .url')
+
           wget -q $DRIVER_URL -O chromedriver.zip
           unzip -o chromedriver.zip
           sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
 
-      - name: Check installed Chrome and ChromeDriver versions
+      - name: Check installed versions
         run: |
           google-chrome --version
           chromedriver --version

@@ -41,7 +41,7 @@ LoginInBag {
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1920x1080";
         Configuration.holdBrowserOpen = true;
-st
+
 
 
 
@@ -100,7 +100,7 @@ st
 
         excursionsPage.addToristinfo();
 
-    /*   excursionsPage.booking();
+     excursionsPage.booking();
 
         sleep(10000);
 
@@ -108,7 +108,7 @@ st
 
 
 
-   */
+
 
 
     }

@@ -1,10 +1,10 @@
-name: Java Tests
+name: Run Tests with Selenide
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
+    branches: [ main ]
 
 jobs:
   test:
@@ -12,30 +12,24 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
 
-      - name: Install dependencies
-        run: sudo apt-get update
-
-      - name: Install Chrome 114 manually
+      - name: Install Google Chrome (latest stable)
         run: |
-          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
-          sudo dpkg -i google-chrome-stable_114.0.5735.90-1_amd64.deb || sudo apt-get -f install -y
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
           google-chrome --version
 
-      - name: Install ChromeDriver 114
+      - name: Install ChromeDriver automatically
         run: |
-          wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
-          chromedriver --version
+          pip install chromedriver-autoinstaller
+          python -c "import chromedriver_autoinstaller; chromedriver_autoinstaller.install()"
 
       - name: Run tests
         run: ./gradlew clean test

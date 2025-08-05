@@ -41,7 +41,7 @@ jobs:
         run: ./gradlew test
 
       - name: Upload Allure results
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: allure-results
           path: build/allure-results

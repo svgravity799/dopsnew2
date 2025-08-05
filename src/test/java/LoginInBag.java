@@ -50,6 +50,8 @@ LoginInBag {
         // @Step("Параметры поиска выставлены)
         excursionsPage.searchExcursions();
 
+        sleep(5000);
+
         excursionsPage.excursionsCards();
 
 
@@ -94,7 +96,7 @@ LoginInBag {
 
         excursionsPage.addToristinfo();
 
-        excursionsPage.booking();
+      excursionsPage.booking();
 
         sleep(10000);
 

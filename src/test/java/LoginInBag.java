@@ -10,6 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import pages.ExcursionsPage;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -37,10 +40,21 @@ LoginInBag {
 
     void ExcursionsBronLoginInBag () {
 
-        Configuration.browser = "chrome";
+        public void test() {
+            ChromeOptions options = new ChromeOptions();
+            options.addArguments("--headless=new");
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--window-size=1920,1080");
+
+            WebDriver driver = new ChromeDriver(options);
+
+
+       /* Configuration.browser = "chrome";
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1920x1080";
-        Configuration.holdBrowserOpen = true;
+        Configuration.holdBrowserOpen = true; */
         System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
 
 

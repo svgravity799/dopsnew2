@@ -3,14 +3,14 @@
     # Получаем текущую версию Google Chrome и очищаем её от лишнего текста
     CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //' | sed 's/\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/')
     
-    # Для теста подставим известную стабильную версию
-    if [ "$CHROME_VERSION" = "138.0.7204" ]; then
-      echo "Chrome version is not valid, using stable version 116.0.5845.96"
-      CHROME_VERSION="116.0.5845.96"  # заменяем на стабильную версию
-    fi
-    
-    # Проверяем, что версия была извлечена корректно
+    # Проверяем, что версия была корректно извлечена
     echo "Detected Chrome version: ${CHROME_VERSION}"
+    
+    # Если версия не соответствует формату, используем рабочую версию (например, 116.0.5845.96)
+    if [[ ! "$CHROME_VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+      echo "Invalid Chrome version detected: ${CHROME_VERSION}. Using fallback version 116.0.5845.96."
+      CHROME_VERSION="116.0.5845.96"
+    fi
     
     # Получаем последнюю совместимую версию ChromeDriver
     CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
@@ -18,7 +18,7 @@
     # Проверяем, что версия была корректно извлечена
     echo "Using ChromeDriver version: ${CHROMEDRIVER_VERSION}"
     
-    # Если переменная CHROMEDRIVER_VERSION пуста, выводим ошибку
+    # Если версия ChromeDriver не найдена, выводим ошибку
     if [ -z "$CHROMEDRIVER_VERSION" ]; then
       echo "Error: Unable to find compatible ChromeDriver version for Chrome ${CHROME_VERSION}. Exiting."
       exit 1

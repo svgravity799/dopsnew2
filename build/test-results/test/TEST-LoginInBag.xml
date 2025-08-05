@@ -1,11 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="LoginInBag" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-08-05T10:08:19" hostname="MacBook-Air-Pavel.local" time="37.323">
+<testsuite name="LoginInBag" tests="1" skipped="0" failures="1" errors="0" timestamp="2025-08-05T17:06:08" hostname="MacBook-Air-Pavel.local" time="0.109">
   <properties/>
-  <testcase name="Бронирование экскурсий с авторизацией в корзине" classname="LoginInBag" time="37.323"/>
+  <testcase name="Бронирование экскурсий с авторизацией в корзине" classname="LoginInBag" time="0.109">
+    <failure message="org.openqa.selenium.remote.NoSuchDriverException: chromedriver located at /usr/local/bin/chromedriver, but invalid&#10;For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location/&#10;Build info: version: '4.13.0', revision: 'ba948ece5b*'&#10;System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '15.1', java.version: '17.0.15'&#10;Driver info: driver.version: SelenideDriver&#10;selenide.url: https://fstravel.com/searchexcursions&#10;selenide.baseUrl: http://localhost:8080" type="org.openqa.selenium.remote.NoSuchDriverException">org.openqa.selenium.remote.NoSuchDriverException: chromedriver located at /usr/local/bin/chromedriver, but invalid
+For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors/driver_location/
+Build info: version: '4.13.0', revision: 'ba948ece5b*'
+System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '15.1', java.version: '17.0.15'
+Driver info: driver.version: SelenideDriver
+selenide.url: https://fstravel.com/searchexcursions
+selenide.baseUrl: http://localhost:8080
+	at app//org.openqa.selenium.remote.service.DriverFinder.getPath(DriverFinder.java:45)
+	at app//org.openqa.selenium.remote.service.DriverFinder.getPath(DriverFinder.java:13)
+	at app//org.openqa.selenium.chrome.ChromeDriver.generateExecutor(ChromeDriver.java:99)
+	at app//org.openqa.selenium.chrome.ChromeDriver.&lt;init&gt;(ChromeDriver.java:88)
+	at app//org.openqa.selenium.chrome.ChromeDriver.&lt;init&gt;(ChromeDriver.java:83)
+	at app//com.codeborne.selenide.webdriver.ChromeDriverFactory.create(ChromeDriverFactory.java:34)
+	at app//com.codeborne.selenide.webdriver.WebDriverFactory.createWebDriverInstance(WebDriverFactory.java:120)
+	at app//com.codeborne.selenide.webdriver.WebDriverFactory.createWebDriver(WebDriverFactory.java:67)
+	at app//com.codeborne.selenide.drivercommands.CreateDriverCommand.lambda$createDriver$0(CreateDriverCommand.java:76)
+	at app//com.codeborne.selenide.logevents.SelenideLogger.wrap(SelenideLogger.java:133)
+	at app//com.codeborne.selenide.logevents.SelenideLogger.get(SelenideLogger.java:113)
+	at app//com.codeborne.selenide.drivercommands.CreateDriverCommand.createDriver(CreateDriverCommand.java:52)
+	at app//com.codeborne.selenide.impl.WebDriverThreadLocalContainer.createDriver(WebDriverThreadLocalContainer.java:205)
+	at app//com.codeborne.selenide.impl.WebDriverThreadLocalContainer.createAndRegisterDriver(WebDriverThreadLocalContainer.java:190)
+	at app//com.codeborne.selenide.impl.WebDriverThreadLocalContainer.getAndCheckWebDriver(WebDriverThreadLocalContainer.java:152)
+	at app//com.codeborne.selenide.WebDriverRunner.getAndCheckWebDriver(WebDriverRunner.java:130)
+	at app//com.codeborne.selenide.impl.StaticDriver.getAndCheckWebDriver(StaticDriver.java:65)
+	at app//com.codeborne.selenide.SelenideDriver.getAndCheckWebDriver(SelenideDriver.java:223)
+	at app//com.codeborne.selenide.drivercommands.Navigator.lambda$navigateTo$0(Navigator.java:71)
+	at app//com.codeborne.selenide.logevents.SelenideLogger.lambda$run$0(SelenideLogger.java:105)
+	at app//com.codeborne.selenide.logevents.SelenideLogger.wrap(SelenideLogger.java:133)
+	at app//com.codeborne.selenide.logevents.SelenideLogger.run(SelenideLogger.java:104)
+	at app//com.codeborne.selenide.drivercommands.Navigator.navigateTo(Navigator.java:69)
+	at app//com.codeborne.selenide.drivercommands.Navigator.open(Navigator.java:32)
+	at app//com.codeborne.selenide.SelenideDriver.open(SelenideDriver.java:102)
+	at app//com.codeborne.selenide.Selenide.open(Selenide.java:53)
+	at app//LoginInBag.ExcursionsBronLoginInBag(LoginInBag.java:63)
+	at java.base@17.0.15/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.15/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.15/java.util.ArrayList.forEach(ArrayList.java:1511)
+</failure>
+  </testcase>
   <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[авг. 05, 2025 2:08:25 PM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 138
-авг. 05, 2025 2:08:25 PM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
-WARNING: Unable to find version of CDP to use for 138.0.7204.184. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.13.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
-]]></system-err>
+  <system-err><![CDATA[]]></system-err>
 </testsuite>

@@ -1,18 +1,9 @@
-import io.qameta.allure.Attachment;
-
-
-
-
-
 import com.codeborne.selenide.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
 import pages.ExcursionsPage;
 
 import static com.codeborne.selenide.Selenide.*;
@@ -29,7 +20,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 @Feature("Авторизация в корзину")
 public class
 LoginInBag {
-    
+
 
     @Test
     @Story("Бронирование экскурсий с авторизацией в корзине")
@@ -40,22 +31,10 @@ LoginInBag {
 
     void ExcursionsBronLoginInBag () {
 
-        public void test() {
-            ChromeOptions options = new ChromeOptions();
-            options.addArguments("--headless=new");
-            options.addArguments("--no-sandbox");
-            options.addArguments("--disable-dev-shm-usage");
-            options.addArguments("--disable-gpu");
-            options.addArguments("--window-size=1920,1080");
-
-            WebDriver driver = new ChromeDriver(options);
-
-
-       /* Configuration.browser = "chrome";
+        Configuration.browser = "chrome";
         Configuration.pageLoadStrategy = "eager";
         Configuration.browserSize = "1920x1080";
-        Configuration.holdBrowserOpen = true; */
-        System.setProperty("webdriver.chrome.driver", "/usr/local/bin/chromedriver");
+        Configuration.holdBrowserOpen = true;
 
 
 
@@ -68,7 +47,7 @@ LoginInBag {
 
         ExcursionsPage excursionsPage = new ExcursionsPage();
 
-       // @Step("Параметры поиска выставлены)
+        // @Step("Параметры поиска выставлены)
         excursionsPage.searchExcursions();
 
         excursionsPage.excursionsCards();
@@ -105,9 +84,9 @@ LoginInBag {
         excursionsPage.closingBanner();
 
 
-      //  System.out.println("Переход в новую вкладку выполнен, экскурсия добавлена в корзину");
+        //  System.out.println("Переход в новую вкладку выполнен, экскурсия добавлена в корзину");
 
-      ///  @Step("Авторизация в корзине выполнена")
+        ///  @Step("Авторизация в корзине выполнена")
         excursionsPage.authInBag();
 
         sleep(1000);
@@ -115,7 +94,7 @@ LoginInBag {
 
         excursionsPage.addToristinfo();
 
-    excursionsPage.booking();
+        excursionsPage.booking();
 
         sleep(10000);
 
@@ -133,7 +112,3 @@ LoginInBag {
         return ((TakesScreenshot) getWebDriver()).getScreenshotAs(OutputType.BYTES);
     }
 }
-
-
-
-

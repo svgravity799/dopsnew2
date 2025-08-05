@@ -2,46 +2,41 @@ name: Run UI Tests
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
   pull_request:
-    branches: [ main ]
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up Java 17
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: 17
 
-      - name: Install stable Google Chrome
+      - name: Install Chrome 114
         run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
-          google-chrome --version
+          sudo apt-get update
+          sudo apt-get remove google-chrome-stable || true
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
+          sudo apt install ./google-chrome-stable_114.0.5735.90-1_amd64.deb
 
-      - name: Install compatible ChromeDriver
+      - name: Install matching ChromeDriver 114
         run: |
-          wget https://chromedriver.storage.googleapis.com/116.0.5845.96/chromedriver_linux64.zip
+          wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
+
+      - name: Verify Chrome and ChromeDriver versions
+        run: |
+          google-chrome --version
           chromedriver --version
 
-      - name: Grant execute permission for Gradle
-        run: chmod +x gradlew
-
       - name: Run tests
-        run: ./gradlew test
-
-      - name: Upload Allure results
-        uses: actions/upload-artifact@v4
-        with:
-          name: allure-results
-          path: build/allure-results
+        run: ./gradlew clean test

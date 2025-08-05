@@ -1,52 +1,51 @@
-name: UI Tests
+name: Run Tests
 
 on:
   push:
     branches:
       - main
   pull_request:
+    branches:
+      - main
 
 jobs:
-  test:
+  setup:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Get Chrome version and install compatible ChromeDriver
-        shell: bash
+      - name: Install dependencies
         run: |
-          set -e
+          ./gradlew build # Устанавливаем все зависимости из build.gradle
 
-          # Получаем полную версию Google Chrome
-          CHROME_VERSION_FULL=$(google-chrome --version | sed 's/Google Chrome //')
-          echo "Full Chrome version: $CHROME_VERSION_FULL"
+      - name: Install Google Chrome
+        run: |
+          wget -q -O - https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb > google-chrome-stable_current_amd64.deb
+          sudo dpkg -i google-chrome-stable_current_amd64.deb
+          sudo apt-get -y install -f
 
-          # Извлекаем Major.Minor.Patch и Major.Minor
-          CHROME_VERSION_TRIPLE=$(echo "$CHROME_VERSION_FULL" | grep -oP '^\d+\.\d+\.\d+')
-          CHROME_VERSION_DOUBLE=$(echo "$CHROME_VERSION_FULL" | grep -oP '^\d+\.\d+')
+      - name: Install ChromeDriver
+        run: |
+          CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //' | sed 's/\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/')
+          echo "Detected Chrome version: ${CHROME_VERSION}"
 
-          # Пробуем получить ChromeDriver для полной версии
-          CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION_TRIPLE}")
+          # Получаем последнюю совместимую версию ChromeDriver
+          CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
 
-          if [[ "$CHROMEDRIVER_VERSION" == *"Error"* || -z "$CHROMEDRIVER_VERSION" ]]; then
-            echo "No ChromeDriver for full version $CHROME_VERSION_TRIPLE, trying major.minor $CHROME_VERSION_DOUBLE"
-            CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION_DOUBLE}")
+          # Проверяем, что версия была корректно извлечена
+          if [ -z "$CHROMEDRIVER_VERSION" ]; then
+            echo "ChromeDriver version not found, using fallback version 116.0.5845.96."
+            CHROMEDRIVER_VERSION="116.0.5845.96" # fallback версия
           fi
 
-          if [[ "$CHROMEDRIVER_VERSION" == *"Error"* || -z "$CHROMEDRIVER_VERSION" ]]; then
-            echo "No ChromeDriver found for version ${CHROME_VERSION_FULL}, using fallback version 116.0.5845.96"
-            CHROMEDRIVER_VERSION="116.0.5845.96"
-          fi
-
-          echo "Using ChromeDriver version: $CHROMEDRIVER_VERSION"
-
-          # Скачиваем и распаковываем ChromeDriver
+          # Скачиваем и устанавливаем ChromeDriver
           wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
+          echo "ChromeDriver ${CHROMEDRIVER_VERSION} installed successfully."
 
       - name: Run tests
         run: ./gradlew test

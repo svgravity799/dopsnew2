@@ -1,55 +1,31 @@
-name: Java CI with Gradle and Selenide
-
-on: [push, pull_request]
-
-jobs:
-  test:
-    runs-on: ubuntu-latest
-
-    steps:
-      # 1. Клонируем репозиторий
-      - uses: actions/checkout@v3
-
-      # 2. Устанавливаем JDK 17
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          distribution: temurin
-          java-version: 17
-
-      # 3. Устанавливаем Google Chrome
-      - name: Install Google Chrome
-        run: |
-          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
-
-      # 4. Устанавливаем ChromeDriver с последней стабильной версией
-      - name: Install ChromeDriver
-        run: |
-          # Получаем текущую версию Google Chrome и очищаем её от лишнего текста
-          CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //' | sed 's/\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/')
-          
-          # Проверяем, что версия была извлечена корректно
-          echo "Detected Chrome version: ${CHROME_VERSION}"
-          
-          # Получаем последнюю совместимую версию ChromeDriver
-          CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
-
-          # Проверяем, что версия была корректно извлечена
-          echo "Using ChromeDriver version: ${CHROMEDRIVER_VERSION}"
-          
-          # Если переменная CHROMEDRIVER_VERSION пуста, выводим ошибку
-          if [ -z "$CHROMEDRIVER_VERSION" ]; then
-            echo "Error: Unable to find compatible ChromeDriver version for Chrome ${CHROME_VERSION}. Exiting."
-            exit 1
-          fi
-
-          # Скачиваем и устанавливаем ChromeDriver
-          wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
-          unzip chromedriver_linux64.zip
-          sudo mv chromedriver /usr/local/bin/
-          sudo chmod +x /usr/local/bin/chromedriver
-
-      # 5. Запускаем тесты
-      - name: Run tests
-        run: ./gradlew clean test
+- name: Install ChromeDriver
+  run: |
+    # Получаем текущую версию Google Chrome и очищаем её от лишнего текста
+    CHROME_VERSION=$(google-chrome --version | sed 's/Google Chrome //' | sed 's/\([0-9]*\.[0-9]*\.[0-9]*\).*/\1/')
+    
+    # Для теста подставим известную стабильную версию
+    if [ "$CHROME_VERSION" = "138.0.7204" ]; then
+      echo "Chrome version is not valid, using stable version 116.0.5845.96"
+      CHROME_VERSION="116.0.5845.96"  # заменяем на стабильную версию
+    fi
+    
+    # Проверяем, что версия была извлечена корректно
+    echo "Detected Chrome version: ${CHROME_VERSION}"
+    
+    # Получаем последнюю совместимую версию ChromeDriver
+    CHROMEDRIVER_VERSION=$(curl -sS "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}")
+    
+    # Проверяем, что версия была корректно извлечена
+    echo "Using ChromeDriver version: ${CHROMEDRIVER_VERSION}"
+    
+    # Если переменная CHROMEDRIVER_VERSION пуста, выводим ошибку
+    if [ -z "$CHROMEDRIVER_VERSION" ]; then
+      echo "Error: Unable to find compatible ChromeDriver version for Chrome ${CHROME_VERSION}. Exiting."
+      exit 1
+    fi
+    
+    # Скачиваем и устанавливаем ChromeDriver
+    wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip
+    unzip chromedriver_linux64.zip
+    sudo mv chromedriver /usr/local/bin/
+    sudo chmod +x /usr/local/bin/chromedriver

@@ -1,29 +1,40 @@
-name: Run tests manually
+name: Run UI Tests
 
 on:
   workflow_dispatch:
+
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Google Chrome
-        run: |
-          brew install --cask google-chrome
+      - name: Set up Java 17
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: 17
 
-      - name: Install ChromeDriver for mac-arm64
+      - name: Install Chrome 114
         run: |
-          set -e
-          JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
-          DRIVER_URL=$(curl -s $JSON_URL | jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="mac-arm64") | .url')
-          echo "Downloading ChromeDriver from $DRIVER_URL"
-          curl -sSL $DRIVER_URL -o chromedriver.zip
-          unzip -o chromedriver.zip
-          sudo mv chromedriver-mac-arm64/chromedriver /usr/local/bin/chromedriver
+          sudo apt-get update
+          sudo apt-get remove google-chrome-stable || true
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.90-1_amd64.deb
+          sudo apt install ./google-chrome-stable_114.0.5735.90-1_amd64.deb
+
+      - name: Install matching ChromeDriver 114
+        run: |
+          wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
+
+      - name: Verify Chrome and ChromeDriver versions
+        run: |
+          google-chrome --version
           chromedriver --version
 
       - name: Run tests
-        run: ./gradlew clean test --tests LoginInBag
+        run: ./gradlew clean test

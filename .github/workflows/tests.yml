@@ -1,4 +1,4 @@
-name: Run Tests Manually
+name: Run UI Tests
 
 on:
   workflow_dispatch:
@@ -8,26 +8,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      - name: Set up JDK 17
+      - name: Set up Java 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: 17
 
-      - name: Install Google Chrome
+      - name: Install Chrome 138
         run: |
-          sudo apt update
-          sudo apt install -y google-chrome-stable
+          sudo apt-get update
+          sudo apt-get remove google-chrome-stable || true
+          wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_138.0.7204.168-1_amd64.deb
+          sudo apt install ./google-chrome-stable_138.0.7204.168-1_amd64.deb
 
-      - name: Install ChromeDriver (fixed version)
+      - name: Install matching ChromeDriver 138
         run: |
-          wget https://chromedriver.storage.googleapis.com/116.0.5845.96/chromedriver_linux64.zip
+          wget https://chromedriver.storage.googleapis.com/138.0.7204.96/chromedriver_linux64.zip
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
 
-      - name: Run Tests
+      - name: Verify Chrome and ChromeDriver versions
+        run: |
+          google-chrome --version
+          chromedriver --version
+
+      - name: Run tests
         run: ./gradlew clean test

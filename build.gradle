@@ -8,31 +8,39 @@ version = '1.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
-    gradlePluginPortal()
-}
-
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
-    }
 }
 
 dependencies {
-    testImplementation 'com.codeborne:selenide:6.19.1'
+    // Selenide
+    testImplementation 'com.codeborne:selenide:7.5.0'
+
+    // JUnit 5
     testImplementation 'org.junit.jupiter:junit-jupiter:5.10.2'
-    testImplementation 'io.qameta.allure:allure-junit5:2.24.0'
-    testImplementation 'io.qameta.allure:allure-selenide:2.24.0'
-    implementation 'org.apache.httpcomponents:httpclient:4.5.13'
+
+    // Allure
+    testImplementation 'io.qameta.allure:allure-selenide:2.27.0'
+    testImplementation 'io.qameta.allure:allure-junit5:2.27.0'
+
+    // WebDriverManager — автоматическая подстановка ChromeDriver
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.9.2'
+
+    // Telegram API (если используешь)
+    testImplementation 'org.telegram:telegrambots:6.8.0'
 }
 
 test {
     useJUnitPlatform()
-    systemProperty 'allure.results.directory', 'build/allure-results'
+    systemProperty "file.encoding", "UTF-8"
+
+    // Чтобы Allure репорты собирались
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
 
 allure {
-    version = '2.24.0'
+    version = "2.27.0"
     useJUnit5 {
-        version = '2.24.0'
+        version = "2.27.0"
     }
 }

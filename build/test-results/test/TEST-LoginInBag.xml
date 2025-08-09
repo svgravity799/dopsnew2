@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="LoginInBag" tests="1" skipped="0" failures="1" errors="0" timestamp="2025-08-06T04:45:45" hostname="MacBook-Air-Pavel.local" time="7.732">
+<testsuite name="LoginInBag" tests="1" skipped="0" failures="1" errors="0" timestamp="2025-08-08T04:22:30" hostname="MacBook-Air-Pavel.local" time="34.469">
   <properties/>
-  <testcase name="Бронирование экскурсий с авторизацией в корзине" classname="LoginInBag" time="7.732">
-    <failure message="Element not found {div[class=v-departure__pinput]}&#10;Expected: visible&#10;Screenshot: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754455552805.0.png&#10;Page source: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754455552805.0.html&#10;Timeout: 5 s.&#10;Caused by: NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;div[class=v-departure__pinput]&quot;}" type="com.codeborne.selenide.ex.ElementNotFound">Element not found {div[class=v-departure__pinput]}
+  <testcase name="Бронирование экскурсий с авторизацией в корзине" classname="LoginInBag" time="34.469">
+    <failure message="Element not found {div.v-departure__pinput}&#10;Expected: visible&#10;Screenshot: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754626984254.0.png&#10;Page source: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754626984254.0.html&#10;Timeout: 30 s.&#10;Caused by: NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;div.v-departure__pinput&quot;}" type="com.codeborne.selenide.ex.ElementNotFound">Element not found {div.v-departure__pinput}
 Expected: visible
-Screenshot: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754455552805.0.png
-Page source: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754455552805.0.html
-Timeout: 5 s.
-Caused by: NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;div[class=v-departure__pinput]&quot;}
+Screenshot: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754626984254.0.png
+Page source: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754626984254.0.html
+Timeout: 30 s.
+Caused by: NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;div.v-departure__pinput&quot;}
 	at app//com.codeborne.selenide.impl.WebElementSource.createElementNotFoundError(WebElementSource.java:91)
 	at app//com.codeborne.selenide.impl.ElementFinder.createElementNotFoundError(ElementFinder.java:142)
 	at app//com.codeborne.selenide.impl.WebElementSource.handleError(WebElementSource.java:143)
@@ -19,22 +19,21 @@ Caused by: NoSuchElementException: no such element: Unable to locate element: {&
 	at app//com.codeborne.selenide.impl.SelenideElementProxy.dispatchAndRetry(SelenideElementProxy.java:132)
 	at app//com.codeborne.selenide.impl.SelenideElementProxy.invoke(SelenideElementProxy.java:84)
 	at app/jdk.proxy3/jdk.proxy3.$Proxy25.shouldBe(Unknown Source)
-	at app//pages.ExcursionsPage.searchExcursions(ExcursionsPage.java:33)
-	at app//LoginInBag.ExcursionsBronLoginInBag(LoginInBag.java:52)
+	at app//pages.ExcursionsPage.searchExcursions(ExcursionsPage.java:39)
+	at app//LoginInBag.ExcursionsBronLoginInBag(LoginInBag.java:60)
 	at java.base@17.0.15/java.lang.reflect.Method.invoke(Method.java:569)
 	at java.base@17.0.15/java.util.ArrayList.forEach(ArrayList.java:1511)
 	at java.base@17.0.15/java.util.ArrayList.forEach(ArrayList.java:1511)
-Caused by: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;div[class=v-departure__pinput]&quot;}
-  (Session info: chrome=138.0.7204.184)
+Caused by: org.openqa.selenium.NoSuchElementException: no such element: Unable to locate element: {&quot;method&quot;:&quot;css selector&quot;,&quot;selector&quot;:&quot;div.v-departure__pinput&quot;}
+  (Session info: chrome=139.0.7258.66)
 For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#no-such-element-exception
 Build info: version: '4.13.0', revision: 'ba948ece5b*'
 System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '15.1', java.version: '17.0.15'
 Driver info: org.openqa.selenium.chrome.ChromeDriver
-Command: [0a597a6a243cb9d638153cbed2b2fea3, findElement {using=css selector, value=div[class=v-departure__pinput]}]
-Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 138.0.7204.184, chrome: {chromedriverVersion: 138.0.7204.183 (e90faf484dd..., userDataDir: /var/folders/mj/yfskdm8d257...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:59537}, networkConnectionEnabled: false, pageLoadStrategy: eager, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:59537/devtoo..., se:cdpVersion: 138.0.7204.184, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
-Session ID: 0a597a6a243cb9d638153cbed2b2fea3
-	at java.base@17.0.15/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
-	at java.base@17.0.15/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+Command: [df726b64b3339f10019ab5b76581090d, findElement {using=css selector, value=div.v-departure__pinput}]
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 139.0.7258.66, chrome: {chromedriverVersion: 139.0.7258.66 (a62d32994769..., userDataDir: /var/folders/mj/yfskdm8d257...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54165}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:54165/devtoo..., se:cdpVersion: 139.0.7258.66, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: df726b64b3339f10019ab5b76581090d
+	at jdk.internal.reflect.GeneratedConstructorAccessor12.newInstance(Unknown Source)
 	at java.base@17.0.15/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
 	at java.base@17.0.15/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
 	at java.base@17.0.15/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
@@ -57,10 +56,12 @@ Session ID: 0a597a6a243cb9d638153cbed2b2fea3
 	... 12 more
 </failure>
   </testcase>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[авг. 06, 2025 8:45:46 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
-WARNING: Unable to find CDP implementation matching 138
-авг. 06, 2025 8:45:46 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
-WARNING: Unable to find version of CDP to use for 138.0.7204.184. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.13.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+  <system-out><![CDATA[Ищем элемент div.v-departure__pinput...
+]]></system-out>
+  <system-err><![CDATA[авг. 08, 2025 8:22:31 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 139
+авг. 08, 2025 8:22:31 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 139.0.7258.66. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.13.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+Элемент не найден! Делаем скриншот для дебага...
 ]]></system-err>
 </testsuite>

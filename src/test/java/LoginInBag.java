@@ -42,6 +42,7 @@ public class LoginInBag {
 
         excursionsPage.searchExcursions();
         Selenide.sleep(5000);
+        excursionsPage.datesExcursions();
         excursionsPage.excursionsCards();
         excursionsPage.closingBanner();
         Selenide.sleep(2000);

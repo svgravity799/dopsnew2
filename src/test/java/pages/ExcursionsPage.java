@@ -27,7 +27,7 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 
 public class ExcursionsPage {
 
-
+//4commit
     @Step("Поиск выполнен")
     public void searchExcursions() {
         $("div[class=v-departure__pinput]").shouldBe(Condition.visible, Duration.ofSeconds(5)).click();

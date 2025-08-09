@@ -1,30 +1,25 @@
-name: Run tests on Mac ARM64
+name: Run Selenide tests
 
 on:
   workflow_dispatch:
 
 jobs:
   test:
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Google Chrome
-        run: |
-          brew install --cask google-chrome
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
 
-      - name: Install ChromeDriver for mac-arm64
+      - name: Install Chrome
         run: |
-          set -e
-          JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
-          DRIVER_URL=$(curl -s $JSON_URL | jq -r '.channels.Stable.downloads.chromedriver[] | select(.platform=="mac-arm64") | .url')
-          echo "Downloading ChromeDriver from $DRIVER_URL"
-          curl -sSL $DRIVER_URL -o chromedriver.zip
-          unzip -o chromedriver.zip
-          sudo mv chromedriver-mac-arm64/chromedriver /usr/local/bin/chromedriver
-          sudo chmod +x /usr/local/bin/chromedriver
-          chromedriver --version
+          sudo apt-get update
+          sudo apt-get install -y google-chrome-stable
 
       - name: Run tests
         run: ./gradlew clean test --tests LoginInBag

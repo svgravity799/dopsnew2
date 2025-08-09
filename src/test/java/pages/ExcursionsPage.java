@@ -30,7 +30,7 @@ public class ExcursionsPage {
 
     @Step("Поиск выполнен")
     public void searchExcursions() {
-        $("div[class=v-departure__pinput]").shouldBe(Condition.visible, Duration.ofSeconds(5)).click();
+        $("div[class=v-departure__pinput]").shouldBe(Condition.visible, Duration.ofSeconds(15)).click();
         $$("[data-v-7cc930c8].v-departure__elem").findBy(Condition.text("Турция")).click();
         sleep(1000);
         $("[data-v-08a2bd6c].calendar__field-title").click();

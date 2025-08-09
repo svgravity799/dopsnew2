@@ -6,6 +6,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
@@ -16,10 +17,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Install Chrome
+      - name: Install Chrome & ChromeDriver
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
+          CHROME_VERSION=$(google-chrome --version | awk '{print $3}')
+          sudo apt-get install -y chromium-chromedriver
+          sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
 
       - name: Run tests
         run: ./gradlew clean test --tests LoginInBag

@@ -1,25 +1,58 @@
-name: Run Selenide tests
+name: Run UI Tests on Ubuntu
 
 on:
+  push:
+  pull_request:
   workflow_dispatch:
 
 jobs:
-  test:
+  ui-tests:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up JDK
+      - name: Install Java 17
         uses: actions/setup-java@v3
         with:
-          java-version: '17'
           distribution: 'temurin'
+          java-version: '17'
 
-      - name: Install Chrome
+      - name: Install Google Chrome
         run: |
           sudo apt-get update
           sudo apt-get install -y google-chrome-stable
 
-      - name: Run tests
+      - name: Get Chrome version
+        id: get_version
+        run: |
+          VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Download matching ChromeDriver
+        run: |
+          JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
+          DRIVER_URL=$(curl -s $JSON_URL | jq -r --arg ver "${{ steps.get_version.outputs.version }}" '.channels.Stable.downloads.chromedriver[] | select(.version | startswith($ver)) | .url')
+          echo "Downloading ChromeDriver from $DRIVER_URL"
+          curl -sSL $DRIVER_URL -o chromedriver.zip
+          unzip chromedriver.zip
+          sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+
+      - name: Verify ChromeDriver version
+        run: chromedriver --version
+
+      - name: Run UI tests
         run: ./gradlew clean test --tests LoginInBag
+
+    # Опционально — шаг с генерацией и публикацией Allure-отчёта
+    #- name: Generate Allure report
+    #  run: ./gradlew allureReport
+
+    #- name: Upload Allure report as artifact
+    #  uses: actions/upload-artifact@v3
+    #  with:
+    #    name: allure-report
+    #    path: build/reports/allure-report
+

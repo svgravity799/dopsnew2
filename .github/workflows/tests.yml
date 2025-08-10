@@ -13,7 +13,6 @@ jobs:
 
       - name: Install Homebrew and Google Chrome
         run: |
-          # Установка Homebrew, если отсутствует
           if ! command -v brew &> /dev/null; then
             /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
             echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
@@ -34,22 +33,19 @@ jobs:
         run: |
           JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
           curl -s $JSON_URL > chrome_versions.json
-          echo "Content of chrome_versions.json:"
-          head -40 chrome_versions.json
 
-          echo "Available versions:"
-          jq '.channels.Stable.downloads.chromedriver[].version' chrome_versions.json
-
+          # Используем jq для поиска chromedriver для mac-x64 с нужной мажорной версией
           DRIVER_URL=$(jq -r --arg ver "${{ steps.get_version.outputs.version }}" '
             .channels.Stable.downloads.chromedriver[]
-            | select((.version | tostring) | startswith($ver))
+            | select(.version | startswith($ver))
+            | select(.url | test("mac-x64"))
             | .url
           ' chrome_versions.json)
 
           echo "Downloading ChromeDriver from $DRIVER_URL"
-          curl -sSL $DRIVER_URL -o chromedriver.zip
+          curl -sSL "$DRIVER_URL" -o chromedriver.zip
           unzip chromedriver.zip
-          sudo mv chromedriver-mac-arm64/chromedriver /usr/local/bin/chromedriver
+          sudo mv chromedriver-mac-x64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
           chromedriver --version
 

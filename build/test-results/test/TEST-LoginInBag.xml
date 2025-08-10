@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<<<<<<< HEAD
 <testsuite name="LoginInBag" tests="1" skipped="0" failures="1" errors="0" timestamp="2025-08-08T04:22:30" hostname="MacBook-Air-Pavel.local" time="34.469">
   <properties/>
   <testcase name="Бронирование экскурсий с авторизацией в корзине" classname="LoginInBag" time="34.469">
@@ -34,6 +35,36 @@ Command: [df726b64b3339f10019ab5b76581090d, findElement {using=css selector, val
 Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 139.0.7258.66, chrome: {chromedriverVersion: 139.0.7258.66 (a62d32994769..., userDataDir: /var/folders/mj/yfskdm8d257...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:54165}, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:54165/devtoo..., se:cdpVersion: 139.0.7258.66, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
 Session ID: df726b64b3339f10019ab5b76581090d
 	at jdk.internal.reflect.GeneratedConstructorAccessor12.newInstance(Unknown Source)
+=======
+<testsuite name="LoginInBag" tests="1" skipped="0" failures="1" errors="0" timestamp="2025-08-10T05:58:26" hostname="MacBook-Air-Pavel.local" time="21.332">
+  <properties/>
+  <testcase name="Бронирование экскурсий с авторизацией в корзине" classname="LoginInBag" time="21.332">
+    <failure message="Invalid element state [button[class=excursion-modal-main__buttons-btn]]: element click intercepted: Element &lt;button id=&quot;excursion0x76020000000200007C7600004AC1B3A70000B3A7000000048A5A00000000000000010000000200000000000000000000000000000000000000000000&quot; class=&quot;excursion-modal-main__buttons-btn&quot;&gt;...&lt;/button&gt; is not clickable at point (1086, 806). Other element would receive the click: &lt;div class=&quot;flocktory-widget-overlay&quot; style=&quot;display: flex; z-index: 2147483647; position: fixed; top: 0px; left: 0px; justify-content: center; align-items: center; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); transform: none;&quot; data-showed-up=&quot;true&quot;&gt;...&lt;/div&gt;&#10;Screenshot: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754805527283.0.png&#10;Page source: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754805527283.0.html&#10;Timeout: 4 s.&#10;Caused by: ElementClickInterceptedException: element click intercepted: Element &lt;button id=&quot;excursion0x76020000000200007C7600004AC1B3A70000B3A7000000048A5A00000000000000010000000200000000000000000000000000000000000000000000&quot; class=&quot;excursion-modal-main__buttons-btn&quot;&gt;...&lt;/button&gt; is not clickable at point (1086, 806). Other element would receive the click: &lt;div class=&quot;flocktory-widget-overlay&quot; style=&quot;display: flex; z-index: 2147483647; position: fixed; top: 0px; left: 0px; justify-content: center; align-items: center; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); transform: none;&quot; data-showed-up=&quot;true&quot;&gt;...&lt;/div&gt;" type="com.codeborne.selenide.ex.InvalidStateException">Invalid element state [button[class=excursion-modal-main__buttons-btn]]: element click intercepted: Element &lt;button id=&quot;excursion0x76020000000200007C7600004AC1B3A70000B3A7000000048A5A00000000000000010000000200000000000000000000000000000000000000000000&quot; class=&quot;excursion-modal-main__buttons-btn&quot;&gt;...&lt;/button&gt; is not clickable at point (1086, 806). Other element would receive the click: &lt;div class=&quot;flocktory-widget-overlay&quot; style=&quot;display: flex; z-index: 2147483647; position: fixed; top: 0px; left: 0px; justify-content: center; align-items: center; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); transform: none;&quot; data-showed-up=&quot;true&quot;&gt;...&lt;/div&gt;
+Screenshot: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754805527283.0.png
+Page source: file:/Users/pavelyatmanov/IdeaProjects/dopsnew2/build/reports/tests/1754805527283.0.html
+Timeout: 4 s.
+Caused by: ElementClickInterceptedException: element click intercepted: Element &lt;button id=&quot;excursion0x76020000000200007C7600004AC1B3A70000B3A7000000048A5A00000000000000010000000200000000000000000000000000000000000000000000&quot; class=&quot;excursion-modal-main__buttons-btn&quot;&gt;...&lt;/button&gt; is not clickable at point (1086, 806). Other element would receive the click: &lt;div class=&quot;flocktory-widget-overlay&quot; style=&quot;display: flex; z-index: 2147483647; position: fixed; top: 0px; left: 0px; justify-content: center; align-items: center; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); transform: none;&quot; data-showed-up=&quot;true&quot;&gt;...&lt;/div&gt;
+	at app//com.codeborne.selenide.impl.ExceptionWrapper.wrap(ExceptionWrapper.java:26)
+	at app//com.codeborne.selenide.impl.SelenideElementProxy.dispatchAndRetry(SelenideElementProxy.java:154)
+	at app//com.codeborne.selenide.impl.SelenideElementProxy.invoke(SelenideElementProxy.java:84)
+	at app/jdk.proxy3/jdk.proxy3.$Proxy25.click(Unknown Source)
+	at app//pages.ExcursionsPage.addToBag(ExcursionsPage.java:77)
+	at app//LoginInBag.ExcursionsBronLoginInBag(LoginInBag.java:76)
+	at java.base@17.0.15/java.lang.reflect.Method.invoke(Method.java:569)
+	at java.base@17.0.15/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base@17.0.15/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: org.openqa.selenium.ElementClickInterceptedException: element click intercepted: Element &lt;button id=&quot;excursion0x76020000000200007C7600004AC1B3A70000B3A7000000048A5A00000000000000010000000200000000000000000000000000000000000000000000&quot; class=&quot;excursion-modal-main__buttons-btn&quot;&gt;...&lt;/button&gt; is not clickable at point (1086, 806). Other element would receive the click: &lt;div class=&quot;flocktory-widget-overlay&quot; style=&quot;display: flex; z-index: 2147483647; position: fixed; top: 0px; left: 0px; justify-content: center; align-items: center; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.8); transform: none;&quot; data-showed-up=&quot;true&quot;&gt;...&lt;/div&gt;
+  (Session info: chrome=139.0.7258.66)
+Build info: version: '4.13.0', revision: 'ba948ece5b*'
+System info: os.name: 'Mac OS X', os.arch: 'aarch64', os.version: '15.1', java.version: '17.0.15'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Command: [7823409bee9906e102ffba4ffa48dc2a, clickElement {id=f.F4A5FE4361F13B6833CA5431FD49BE72.d.211AD6D2C4B7E2CA502E5054E058E497.e.224}]
+Capabilities {acceptInsecureCerts: true, browserName: chrome, browserVersion: 139.0.7258.66, chrome: {chromedriverVersion: 139.0.7258.66 (a62d32994769..., userDataDir: /var/folders/mj/yfskdm8d257...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:50026}, networkConnectionEnabled: false, pageLoadStrategy: eager, platformName: mac, proxy: Proxy(), se:cdp: ws://localhost:50026/devtoo..., se:cdpVersion: 139.0.7258.66, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: accept, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Element: [[ChromeDriver: chrome on mac (7823409bee9906e102ffba4ffa48dc2a)] -&gt; css selector: button[class=excursion-modal-main__buttons-btn]]
+Session ID: 7823409bee9906e102ffba4ffa48dc2a
+	at java.base@17.0.15/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+	at java.base@17.0.15/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+>>>>>>> 4084e2c (mainFinnila)
 	at java.base@17.0.15/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
 	at java.base@17.0.15/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
 	at java.base@17.0.15/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
@@ -44,6 +75,7 @@ Session ID: df726b64b3339f10019ab5b76581090d
 	at app//org.openqa.selenium.remote.service.DriverCommandExecutor.invokeExecute(DriverCommandExecutor.java:196)
 	at app//org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:171)
 	at app//org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:602)
+<<<<<<< HEAD
 	at app//org.openqa.selenium.remote.ElementLocation$ElementFinder$2.findElement(ElementLocation.java:165)
 	at app//org.openqa.selenium.remote.ElementLocation.findElement(ElementLocation.java:59)
 	at app//org.openqa.selenium.remote.RemoteWebDriver.findElement(RemoteWebDriver.java:359)
@@ -63,5 +95,23 @@ WARNING: Unable to find CDP implementation matching 139
 авг. 08, 2025 8:22:31 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
 WARNING: Unable to find version of CDP to use for 139.0.7258.66. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.13.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
 Элемент не найден! Делаем скриншот для дебага...
+=======
+	at app//org.openqa.selenium.remote.RemoteWebElement.execute(RemoteWebElement.java:224)
+	at app//org.openqa.selenium.remote.RemoteWebElement.click(RemoteWebElement.java:77)
+	at app//com.codeborne.selenide.commands.Click.defaultClick(Click.java:97)
+	at app//com.codeborne.selenide.commands.Click.click(Click.java:54)
+	at app//com.codeborne.selenide.commands.Click.execute(Click.java:31)
+	at app//com.codeborne.selenide.commands.Click.execute(Click.java:21)
+	at app//com.codeborne.selenide.commands.Commands.execute(Commands.java:165)
+	at app//com.codeborne.selenide.impl.SelenideElementProxy.dispatchAndRetry(SelenideElementProxy.java:132)
+	... 7 more
+</failure>
+  </testcase>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[авг. 10, 2025 9:58:28 AM org.openqa.selenium.devtools.CdpVersionFinder findNearestMatch
+WARNING: Unable to find CDP implementation matching 139
+авг. 10, 2025 9:58:28 AM org.openqa.selenium.chromium.ChromiumDriver lambda$new$5
+WARNING: Unable to find version of CDP to use for 139.0.7258.66. You may need to include a dependency on a specific version of the CDP using something similar to `org.seleniumhq.selenium:selenium-devtools-v86:4.13.0` where the version ("v86") matches the version of the chromium-based browser you're using and the version number of the artifact is the same as Selenium's.
+>>>>>>> 4084e2c (mainFinnila)
 ]]></system-err>
 </testsuite>

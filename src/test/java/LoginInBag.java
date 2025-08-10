@@ -21,6 +21,10 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 public class
 LoginInBag {
 
+    @Before
+    public void setup() {
+        WebDriverManager.chromedriver().setup();  // <--- вот здесь
+    }
 
     @Test
     @Story("Бронирование экскурсий с авторизацией в корзине")

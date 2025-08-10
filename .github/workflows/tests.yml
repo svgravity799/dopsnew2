@@ -1,4 +1,4 @@
-name: Run UI Tests on macOS (manual trigger only)
+name: Run Tests Manually
 
 on:
   workflow_dispatch:
@@ -8,17 +8,19 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
       - name: Install Google Chrome
-        run: brew install --cask google-chrome
+        run: |
+          brew install --cask google-chrome || echo "Chrome already installed"
 
       - name: Get Chrome major version
         id: get_version
         run: |
           FULL_VERSION=$("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
           echo "Full version: $FULL_VERSION"
-          MAJOR_VERSION=$(echo "$FULL_VERSION" | cut -d. -f1)
+          MAJOR_VERSION=$(echo $FULL_VERSION | cut -d. -f1)
           echo "Major version: $MAJOR_VERSION"
           echo "version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
 
@@ -30,19 +32,27 @@ jobs:
           CHROME_VERSION="${{ steps.get_version.outputs.version }}"
           echo "Using Chrome major version: $CHROME_VERSION"
 
+          # Фильтруем chromedriver под mac-x64 (или замените под нужную платформу)
           DRIVER_URL=$(jq -r --arg ver "$CHROME_VERSION" '
             .channels.Stable.downloads.chromedriver[]
-            | select(.version | startswith($ver))
+            | select(.version != null and (.version | startswith($ver)))
             | select(.url | test("mac-x64"))
             | .url
           ' chrome_versions.json)
 
+          if [ -z "$DRIVER_URL" ]; then
+            echo "ChromeDriver URL not found for version $CHROME_VERSION"
+            exit 1
+          fi
+
           echo "Downloading ChromeDriver from $DRIVER_URL"
           curl -sSL "$DRIVER_URL" -o chromedriver.zip
           unzip chromedriver.zip
+
+          # Путь зависит от архива, для mac-x64:
           sudo mv chromedriver-mac-x64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
           chromedriver --version
 
-      - name: Run UI Tests
+      - name: Run tests
         run: ./gradlew clean test --tests LoginInBag

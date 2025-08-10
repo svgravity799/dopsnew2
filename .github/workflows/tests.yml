@@ -8,8 +8,7 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
       - name: Install Google Chrome (if needed)
         run: |
@@ -24,23 +23,22 @@ jobs:
           echo "Major version: $MAJOR_VERSION"
           echo "version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Download latest stable ChromeDriver for mac-arm64
+      - name: Download ChromeDriver for mac-arm64
         run: |
           JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
           curl -s $JSON_URL > chrome_versions.json
           
           LATEST_VERSION=$(jq -r '.channels.Stable.version' chrome_versions.json)
-          echo "Using latest stable ChromeDriver version: $LATEST_VERSION"
+          echo "Latest stable Chrome version: $LATEST_VERSION"
           
-          DRIVER_URL=$(jq -r --arg ver "$LATEST_VERSION" '
+          DRIVER_URL=$(jq -r '
             .channels.Stable.downloads.chromedriver[]
-            | select(.version == $ver)
             | select(.url | test("mac-arm64"))
             | .url
-          ' chrome_versions.json)
+          ' chrome_versions.json | head -n 1)
           
           if [ -z "$DRIVER_URL" ]; then
-            echo "ChromeDriver URL not found for latest stable version $LATEST_VERSION"
+            echo "ChromeDriver URL for mac-arm64 not found!"
             exit 1
           fi
           
@@ -52,5 +50,4 @@ jobs:
           chromedriver --version
 
       - name: Run tests
-        run: |
-          ./gradlew clean test --tests LoginInBag
+        run: ./gradlew clean test --tests LoginInBag

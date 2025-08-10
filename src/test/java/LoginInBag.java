@@ -26,7 +26,7 @@ LoginInBag {
     @Story("Бронирование экскурсий с авторизацией в корзине")
     @Owner("Pavel Yatmanov")
     @Severity(SeverityLevel.CRITICAL)
-    @DisplayName("Бронирование экскурсий с авторизацией в корзине")
+    @DisplayName("Бронирование экскурсий с авторизацией в корзине2")
 
 
     void ExcursionsBronLoginInBag () {

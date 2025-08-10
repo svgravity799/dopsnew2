@@ -1,23 +1,44 @@
-- name: Get Chrome major version
-  id: get_version
-  run: |
-    FULL_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
-    echo "Full version: $FULL_VERSION"
-    MAJOR_VERSION=$(echo $FULL_VERSION | cut -d. -f1)
-    echo "Major version: $MAJOR_VERSION"
-    echo "version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
+name: Run tests on Mac ARM64
 
-- name: Download matching ChromeDriver
-  run: |
-    JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
-    echo "Fetching JSON from $JSON_URL"
-    curl -s $JSON_URL > chrome_versions.json
-    echo "JSON preview:"
-    head -20 chrome_versions.json
-    DRIVER_URL=$(jq -r --arg ver "${{ steps.get_version.outputs.version }}" '.channels.Stable.downloads.chromedriver[] | select(.version | startswith($ver)) | .url' chrome_versions.json)
-    echo "Downloading ChromeDriver from $DRIVER_URL"
-    curl -sSL $DRIVER_URL -o chromedriver.zip
-    unzip -o chromedriver.zip
-    sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
-    sudo chmod +x /usr/local/bin/chromedriver
-    chromedriver --version
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Google Chrome
+        run: |
+          brew install --cask google-chrome
+
+      - name: Get Chrome major version
+        id: get_version
+        run: |
+          FULL_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          echo "Full version: $FULL_VERSION"
+          MAJOR_VERSION=$(echo $FULL_VERSION | cut -d. -f1)
+          echo "Major version: $MAJOR_VERSION"
+          echo "version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Download matching ChromeDriver
+        run: |
+          JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
+          echo "Fetching JSON from $JSON_URL"
+          curl -s $JSON_URL > chrome_versions.json
+          cat chrome_versions.json | jq '.'
+          DRIVER_URL=$(jq -r --arg ver "${{ steps.get_version.outputs.version }}" '.channels.Stable.downloads.chromedriver[] | select(.version | startswith($ver)) | .url' chrome_versions.json)
+          echo "Downloading ChromeDriver from $DRIVER_URL"
+          curl -sSL $DRIVER_URL -o chromedriver.zip
+          unzip chromedriver.zip
+          sudo mv chromedriver-mac-arm64/chromedriver /usr/local/bin/chromedriver || sudo mv chromedriver-linux64/chromedriver /usr/local/bin/chromedriver
+          sudo chmod +x /usr/local/bin/chromedriver
+          chromedriver --version
+
+      - name: Run tests
+        run: ./gradlew clean test --tests LoginInBag

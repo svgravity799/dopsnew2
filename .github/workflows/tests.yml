@@ -8,14 +8,14 @@ jobs:
     runs-on: macos-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repo
         uses: actions/checkout@v3
 
-      - name: Install Google Chrome
+      - name: Install Google Chrome (if needed)
         run: |
-          brew install --cask google-chrome || echo "Chrome already installed"
+          brew install --cask google-chrome || echo "Chrome is already installed"
 
-      - name: Get Chrome major version
+      - name: Get Chrome version
         id: get_version
         run: |
           FULL_VERSION=$("/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --version | grep -Eo '[0-9]+\.[0-9]+\.[0-9]+')
@@ -24,47 +24,33 @@ jobs:
           echo "Major version: $MAJOR_VERSION"
           echo "version=$MAJOR_VERSION" >> $GITHUB_OUTPUT
 
-      - name: Download matching ChromeDriver
+      - name: Download latest stable ChromeDriver for mac-arm64
         run: |
           JSON_URL="https://googlechromelabs.github.io/chrome-for-testing/last-known-good-versions-with-downloads.json"
           curl -s $JSON_URL > chrome_versions.json
-
-          CHROME_VERSION="${{ steps.get_version.outputs.version }}"
-          echo "Using Chrome major version: $CHROME_VERSION"
-
-          # Попытка получить ChromeDriver для точной версии и mac-arm64
-          DRIVER_URL=$(jq -r --arg ver "$CHROME_VERSION" '
+          
+          LATEST_VERSION=$(jq -r '.channels.Stable.version' chrome_versions.json)
+          echo "Using latest stable ChromeDriver version: $LATEST_VERSION"
+          
+          DRIVER_URL=$(jq -r --arg ver "$LATEST_VERSION" '
             .channels.Stable.downloads.chromedriver[]
-            | select(.version != null and (.version | startswith($ver)))
+            | select(.version == $ver)
             | select(.url | test("mac-arm64"))
             | .url
           ' chrome_versions.json)
-
-          # Если не найден, взять последнюю стабильную версию из channels.Stable.version
+          
           if [ -z "$DRIVER_URL" ]; then
-            LATEST_VERSION=$(jq -r '.channels.Stable.version' chrome_versions.json)
-            echo "Exact version not found, fallback to latest stable version: $LATEST_VERSION"
-
-            DRIVER_URL=$(jq -r --arg ver "$LATEST_VERSION" '
-              .channels.Stable.downloads.chromedriver[]
-              | select(.version == $ver)
-              | select(.url | test("mac-arm64"))
-              | .url
-            ' chrome_versions.json)
-
-            if [ -z "$DRIVER_URL" ]; then
-              echo "ChromeDriver URL not found for latest stable version $LATEST_VERSION"
-              exit 1
-            fi
+            echo "ChromeDriver URL not found for latest stable version $LATEST_VERSION"
+            exit 1
           fi
-
+          
           echo "Downloading ChromeDriver from $DRIVER_URL"
           curl -sSL "$DRIVER_URL" -o chromedriver.zip
           unzip chromedriver.zip
-
           sudo mv chromedriver-mac-arm64/chromedriver /usr/local/bin/chromedriver
           sudo chmod +x /usr/local/bin/chromedriver
           chromedriver --version
 
       - name: Run tests
-        run: ./gradlew clean test --tests LoginInBag
+        run: |
+          ./gradlew clean test --tests LoginInBag
